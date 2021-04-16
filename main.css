@@ -6,7 +6,7 @@
 html,
 body {
   box-sizing: border-box;
-  background-color: #888;
+  background-color: #CCC;
   font-family: sans-serif;
   color: #FFF;
 }
@@ -57,7 +57,7 @@ header {
   width: 98px;
   height: 98px;
   background-color: #444;
-  border: 1px solid #888;
+  border: 2px solid #888;
   border-radius: 50px;
   font-size: 3em;
   box-shadow: 4px 5px 5px 0px rgba(0, 0, 0, 0.5);
@@ -79,7 +79,7 @@ header {
 }
 
 .clear:hover {
-  background-color: goldenRod;
+  background-color: navy;
   border-color: #FFF;
 }
 
@@ -88,11 +88,11 @@ header {
   border-color: #FFF;
 }
 
-.operation {
+.operator {
   background-color: #444;
 }
 
-.operation:hover {
+.operator:hover {
   background-color: darkOrange;
   border-color: #FFF;
 }
@@ -100,16 +100,13 @@ header {
 .display {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   background-color: #666;
-  width: 448px;
+  width: 408px;
   height: 98px;
-  border: 1px solid #FFF;
+  border: 2px solid #FFF;
   border-radius: 50px;
   font-size: 3em;
   box-shadow: inset 2px 3px 5px 0px rgba(0, 0, 0, 0.7);
-}
-
-.top {
-  margin-top: 25px;
+  padding: 0px 20px 0px 20px;
 }

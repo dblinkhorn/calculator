@@ -1,7 +1,21 @@
-function sum (x, y) {
-  if (numbers.length === 0) {
-    return 0;
-  }
+// Calculator project from The Odin Project
+
+// Must be able to take two numbers and an operator and return the answer
+
+// separate function for each type of operation: add, subtract, multiply, divide
+// must be able to detect any click of a number button
+  // needs a variable to store the numbers the user clicks and display them on the calculator screen
+  // needs a function that will use the user click on a given number and store it in the variable above
+  // "first number" must be any number buttons clicked before an operator is clicked, all stored in variable
+// needs a variable to store the operator the user clicks and display it on the screen
+// must be able to detect any click of an operator button
+  // needs a function that will detect which operator the user clicks and display it on the screen
+  // "second number" must be any number buttons clicked after operator is clicked and before equals button is clicked, all stored in variable
+// when user hits equals key, needs a function that will take the two numbers and the operator and return the answer and display it
+// needs a function that will clear the screen when necessary or when user clicks button
+// needs a function that will delete one item from the screen at a time
+
+let add = function add (x, y) {
   return x + y;
 }
 
@@ -16,49 +30,98 @@ let multiply = function multiply (x, y) {
 let divide = function divide (x, y) {
   if (y === 0) {
     display.innerHTML = "You can't divide by zero!";
+    // resetDisplay();
   } else {
     return x / y;
   }
 }
 
-function operate (operator, number1, number2) {
+function operate (operator, firstNumber, secondNumber) {
   if (operator === "+") {
-    add(numbers[0], numbers[1])
+    display.textContent = add(Number(firstNumber), Number(secondNumber));
   }
+  if (operator === "-") {
+    display.textContent = subtract(Number(firstNumber), Number(secondNumber));
+  }
+  if (operator === "*") {
+    display.textContent = multiply(Number(firstNumber), Number(secondNumber));
+  }
+  if (operator === "/") {
+    display.textContent = divide(Number(firstNumber), Number(secondNumber));
+  }
+  resetValues();
+  needsReset = true;
 }
 
-let numbers = [];
-let UserOperator;
-
-let displayText = [""];
-let displayDiv = document.getElementById("display");
-
-function addUserNumber(number) {
-  numbers.push(number);
-  displayText.push(`${number}`);
-  console.log(number);
+function resetValues() {
+  firstNumber = "";
+  secondNumber = "";
+  userOperator = "";
 }
 
-function addUserOperator(clickedOperator) {
-  userOperator.push(clickedOperator);
-  displayText.push(clickedOperator);
-  console.log(userOperator);
+let equal = document.getElementById("equal").addEventListener("click", function () {
+  operate(userOperator, firstNumber, secondNumber);
+})
+
+function resetDisplay() {
+  display.textContent = 0;
 }
+
+deleteButton = document.getElementById("delete").addEventListener("click", displayDelete);
+
+function displayDelete() {
+  display.textContent = display.textContent.toString().slice(0, -1);
+}
+
+let firstNumber = "";
+let secondNumber = "";
+let userOperator = "";
+
+let needsReset = false;
 
 let display = document.getElementById("display");
 
-let zero = document.getElementById("zero").addEventListener("click", addUserNumber(0));
-let one = document.getElementById("one").addEventListener("click", addUserNumber(1));
-let two = document.getElementById("two").addEventListener("click", addUserNumber(2));
-let three = document.getElementById("three").addEventListener("click", addUserNumber(3));
-let four = document.getElementById("four").addEventListener("click", addUserNumber(4));
-let five = document.getElementById("five").addEventListener("click", addUserNumber(5));
-let six = document.getElementById("six").addEventListener("click", addUserNumber(6));
-let seven = document.getElementById("seven").addEventListener("click", addUserNumber(7));
-let eight = document.getElementById("eight").addEventListener("click", addUserNumber(8));
-let nine = document.getElementById("nine").addEventListener("click", addUserNumber(9));
+function addUserNumber(number) {
+  if (needsReset === true) {
+    resetDisplay();
+  }
+  if (display.textContent === "0") {
+    displayDelete();
+  }
+  if (userOperator === "") {
+    firstNumber += number;
+  } else {
+    secondNumber += number;
+  }
+  display.textContent += number;
+  needsReset = false;
+}
 
-let add = document.getElementById("add").addEventListener("click", addUserOperator("+"));
-let minus = document.getElementById("subtract").addEventListener("click", addUserOperator("-"));
-let product = document.getElementById("multiply").addEventListener("click", addUserOperator("*"));
-let divided = document.getElementById("divide").addEventListener("click", addUserOperator("/"));
+function addUserOperator(operator) {
+  if (display.textContent === "0") {
+    displayDelete();
+  }
+  if (userOperator !== "" || firstNumber === "0") {
+    return;
+  }
+  userOperator = operator;
+  display.textContent += ` ${operator} `;
+}
+
+let numberButtons = document.querySelectorAll("#number");
+let operatorButtons = document.querySelectorAll("#operator")
+let clear = document.getElementById("clear").addEventListener("click", function() {
+  resetDisplay();
+})
+
+numberButtons.forEach( function (number) {
+  number.addEventListener("click", function () {
+    addUserNumber(number.textContent)
+  });
+});
+
+operatorButtons.forEach( function (operator) {
+  operator.addEventListener("click", function () {
+    addUserOperator(operator.textContent)
+  });
+});
