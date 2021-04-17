@@ -118,7 +118,7 @@ function operate (operator, firstNumber, secondNumber) {
 
 // rounds any answer so it will fit on the calculator display
 function roundAnswer(answer) {
-  return Math.round(answer * 10000000000000) / 10000000000000;
+  return Math.round(answer * 10000000000) / 10000000000;
 }
 
 // resets all below variables
@@ -140,7 +140,7 @@ function displayDelete() {
   // if after deleting a character there is nothing on the screen
   if (display.textContent === "") {
     // then add a zero so there's always a "0" displayed, maintains the default state of the screen
-    display.textContent = "0";
+    resetDisplay();
   }
 }
 
@@ -170,14 +170,16 @@ function addUserNumber(number) {
   display.textContent += number;
   // change to false in case it was previously set to true from a previous use of operate function
   needsReset = false;
+  // delete any leading zero once first number is entered
+  checkForLeadingZero();
 }
 
 // does the same as addUserNumber function but for a clicked operator
 function addUserOperator(operator) {
   // checks whether user has selected an operator, or if there's no firstNumber set, or if it's still "0"
   if (userOperator !== "" || firstNumber === "" || firstNumber === "0") {
-    // in those cases make sure the calculator display continues to show "0"
-    display.textContent = "0";
+    // // in those cases make sure the calculator display continues to show "0"
+    // display.textContent = "0";
     // and break out of function
     return;
   }
@@ -190,4 +192,15 @@ function addUserOperator(operator) {
   userOperator = operator;
   // and show it on the calculator display
   display.textContent += ` ${operator} `;
+}
+
+// makes sure that no leading zeroes remain on calculator display
+function checkForLeadingZero() {
+  // stores the calculator display text to a string
+  displayTextToString = display.textContent.toString();
+  // if the first character of that string is "0"
+  if (displayTextToString.charAt(0) === "0") {
+    // then delete it
+    display.textContent = display.textContent.toString().slice(1);
+  }
 }
